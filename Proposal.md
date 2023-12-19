@@ -1,6 +1,6 @@
 # Proposal
 
-An optimization option is added to allow users to generate shorter symbol names for dylib. At the expense of commissioning capabilities such as readability of symbol names, this option eliminates the space bottleneck encountered by using Rust to replace existing C/C++ functional modules in resource-constrained scenarios.
+Added an optimization option that allows users to replace full symbol mangling names based on hash digests, greatly reducing the length of symbol names in dylib. At the expense of commissioning capabilities such as readability of symbol names, this option eliminates the space bottleneck encountered by using Rust to replace existing C/C++ functional modules in resource-constrained scenarios.
 
 # Motivation
 
@@ -68,7 +68,7 @@ Added an optimization option, `symbol_mangling_digest`, to post-process the symb
 The new option are defined as follows: `-Z symbol_mangling_digest=<crate name>[*],...[,excluded=<true|false>][,salt=<value>][,level=<1|2>]`
 
 - `crate_name[*],...`: Name of a crate. Multiple crate names are allowed. If the suffix `*` is carried, it is the prefix of the crate name. It and `excluded` together determine the range of symbols to be optimized. Users must be very clear about the optimization range. If the crate supports regular expression matching, the optimization range is difficult to determine. May cause confusion. Defaults to null.
-- `excluded=<true|false>`: If the value is `false`, only the names of symbols whose crate names are successfully matched are optimized. If the value is `true`, it indicates that the name of the symbol that fails to be matched is optimized. The default value is `false`..
+- `excluded=<true|false>`: If the value is `false`, only the names of symbols whose crate names are successfully matched are optimized. If the value is `true`, it indicates that the name of the symbol that fails to be matched is optimized. The default value is `false`.
 - `salt=<value>`: User-specified salt used in hash calculation. The default value is null.
 - `level=<1|2>`: Specifies the combination policy of the final symbol name. If the value is `1`, the final combination format is `{crate}.{item}.{hash32}` . If the value is `2`, the final combination format is `{crate}.{hash64}`. The default value is `2`. 
 >
